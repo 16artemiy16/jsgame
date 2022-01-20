@@ -1,0 +1,16 @@
+<html lang="en">
+    <head>
+        <title>Snake</title>
+    </head>
+    <body>
+        <div id="snake-game"></div>
+
+        <script type="module">
+          import "./snake/dist/snake-game.js";
+          const { injectGame } = window['snakeGame'];
+          injectGame('#snake-game');
+        </script>
+    </body>
+</html>
+
+
