@@ -1,31 +1,49 @@
 import { Field } from './Field';
+import { CellItemValue } from '../models/types/cell-item-value.type';
+import { CellItem } from '../models/enums/cell-item.enum';
 
 export class FieldPainter {
   cellSizePx: number = 50;
   field: Field = new Field();
 
+  // TODO: think may it be optimized with using fragments
   paint(selector: string) {
     const placeholder = document.querySelector(selector);
-    const fieldFragment = document.createElement('div');
-    fieldFragment.style.display = 'flex';
+    const fieldDiv = document.createElement('div');
+    fieldDiv.style.display = 'flex';
+    fieldDiv.style.flexDirection = 'column';
 
-    this.field.cells.forEach((row, rowNumber) => {
+    this.field.cells.forEach((row, y) => {
       const rowDiv = document.createElement('div');
       rowDiv.style.display = 'flex';
-      rowDiv.style.flexDirection = 'column';
 
-      row.forEach((cell, cellNumber) => {
+      row.forEach((cell, x) => {
         const cellEl = document.createElement('div') as HTMLDivElement;
+        const cellValue = this.field.getCell({ x, y });
+
         cellEl.style.width = `${this.cellSizePx}px`;
         cellEl.style.height = `${this.cellSizePx}px`;
         cellEl.style.border = '1px black solid';
-        cellEl.id = `cell-${rowNumber}_${cellNumber}`;
+        cellEl.style.background = this.getBGByCellValue(cellValue);
+
+        cellEl.id = `cell-${y}_${x}`;
+        cellEl.classList.add('snake__cell')
+
         rowDiv.appendChild(cellEl);
       });
 
-      fieldFragment.appendChild(rowDiv);
+      fieldDiv.appendChild(rowDiv);
     });
 
-    placeholder.appendChild(fieldFragment);
+    placeholder.appendChild(fieldDiv);
+  }
+
+  getBGByCellValue(value: CellItemValue): string {
+    return {
+      [`${CellItem.Empty}`]: 'white',
+      [`${CellItem.Snake}`]: 'grey',
+      [`${CellItem.Food}`]: 'green',
+      [`${CellItem.Wall}`]: 'black',
+    }[`${value}`];
   }
 }
