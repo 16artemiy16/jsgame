@@ -1,13 +1,34 @@
 import { Field } from './Field';
 import { CellItemValue } from '../models/types/cell-item-value.type';
 import { CellItem } from '../models/enums/cell-item.enum';
+import { CoordsI } from '../models/interfaces/coords.interface';
 
 export class FieldPainter {
-  cellSizePx: number = 50;
+  cellSizePx: number = 35;
   field: Field = new Field();
 
-  // TODO: think may it be optimized with using fragments
-  paint(selector: string) {
+  init(selector: string) {
+    this.paint(selector);
+
+    this.field.onUpdate = (updates) => {
+      updates.forEach(({ x, y, value }) => {
+        this.paintCellEl({ x, y }, value);
+      });
+    }
+
+    setTimeout(() => {
+      this.field.updateCells([
+        { x: 0, y: 0, value: CellItem.Snake },
+        { x: 3, y: 0, value: CellItem.Empty },
+      ]);
+    }, 1000);
+  }
+
+  private getElByCoords({ x, y }: CoordsI): HTMLElement | null {
+    return document.querySelector(`#cell-${y}_${x}`);
+  }
+
+  private paint(selector: string) {
     const placeholder = document.querySelector(selector);
     const fieldDiv = document.createElement('div');
     fieldDiv.style.display = 'flex';
@@ -38,12 +59,20 @@ export class FieldPainter {
     placeholder.appendChild(fieldDiv);
   }
 
-  getBGByCellValue(value: CellItemValue): string {
+  private getBGByCellValue(value: CellItemValue): string {
     return {
       [`${CellItem.Empty}`]: 'white',
       [`${CellItem.Snake}`]: 'grey',
       [`${CellItem.Food}`]: 'green',
       [`${CellItem.Wall}`]: 'black',
     }[`${value}`];
+  }
+
+  private paintCellEl(coords: CoordsI, value: CellItemValue) {
+    const el = this.getElByCoords(coords);
+    if (!el) {
+      throw Error(`There is no cell with these coords ${JSON.stringify(coords)}`);
+    }
+    el.style.background = this.getBGByCellValue(value);
   }
 }
