@@ -21,9 +21,10 @@ export class Field {
    *  1 - snake
    *  2 - food
    *  3 - wall
+   *  4- snake head
    */
   private readonly _cells: CellItemValue[][] = [
-    [0, 1, 1, 1, 0, 0, 0, 0],
+    [0, 4, 1, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 2, 0],
     [0, 3, 0, 0, 0, 0, 0, 0],
     [0, 3, 0, 0, 0, 0, 0, 0],

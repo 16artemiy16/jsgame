@@ -18,7 +18,8 @@ export class FieldPainter {
 
     setTimeout(() => {
       this.field.updateCells([
-        { x: 0, y: 0, value: CellItem.Snake },
+        { x: 0, y: 0, value: CellItem.SnakeHead },
+        { x: 1, y: 0, value: CellItem.Snake },
         { x: 3, y: 0, value: CellItem.Empty },
       ]);
     }, 1000);
@@ -65,6 +66,7 @@ export class FieldPainter {
       [`${CellItem.Snake}`]: 'grey',
       [`${CellItem.Food}`]: 'green',
       [`${CellItem.Wall}`]: 'black',
+      [`${CellItem.SnakeHead}`]: 'silver',
     }[`${value}`];
   }
 

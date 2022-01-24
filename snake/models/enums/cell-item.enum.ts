@@ -3,4 +3,5 @@ export enum CellItem {
   Snake = 1,
   Food = 2,
   Wall = 3,
+  SnakeHead = 4,
 }
