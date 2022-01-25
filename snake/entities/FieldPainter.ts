@@ -2,10 +2,12 @@ import { Field } from './Field';
 import { CellItemValue } from '../models/types/cell-item-value.type';
 import { CellItem } from '../models/enums/cell-item.enum';
 import { CoordsI } from '../models/interfaces/coords.interface';
+import { Snake } from './Snake';
 
 export class FieldPainter {
   cellSizePx: number = 35;
   field: Field = new Field();
+  snake: Snake = new Snake(this.field);
 
   init(selector: string) {
     this.paint(selector);
@@ -16,13 +18,13 @@ export class FieldPainter {
       });
     }
 
-    setTimeout(() => {
-      this.field.updateCells([
-        { x: 0, y: 0, value: CellItem.SnakeHead },
-        { x: 1, y: 0, value: CellItem.Snake },
-        { x: 3, y: 0, value: CellItem.Empty },
-      ]);
-    }, 1000);
+    // setTimeout(() => {
+    //   this.field.updateCells([
+    //     { x: 0, y: 0, value: CellItem.SnakeHead },
+    //     { x: 1, y: 0, value: CellItem.Snake },
+    //     { x: 3, y: 0, value: CellItem.Empty },
+    //   ]);
+    // }, 1000);
   }
 
   private getElByCoords({ x, y }: CoordsI): HTMLElement | null {
@@ -64,6 +66,7 @@ export class FieldPainter {
     return {
       [`${CellItem.Empty}`]: 'white',
       [`${CellItem.Snake}`]: 'grey',
+      [`${CellItem.SnakeTail}`]: 'grey',
       [`${CellItem.Food}`]: 'green',
       [`${CellItem.Wall}`]: 'black',
       [`${CellItem.SnakeHead}`]: 'silver',

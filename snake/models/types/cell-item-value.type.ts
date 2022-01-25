@@ -1,1 +1,9 @@
-export type CellItemValue = 0 | 1 | 2 | 3 | 4;
+import { CellItem } from '../enums/cell-item.enum';
+
+export type CellItemValue =
+  CellItem.Empty     |
+  CellItem.Snake     |
+  CellItem.Food      |
+  CellItem.Wall      |
+  CellItem.SnakeHead |
+  CellItem.SnakeTail;
