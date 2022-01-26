@@ -3,11 +3,17 @@ import { CoordsI } from '../models/interfaces/coords.interface';
 import { Snake } from './Snake';
 import { CellItemValue } from '../models/types/cell-item-value.type';
 import { NonSnakeCellItem } from '../models/enums/non-snake-cell-value.enum';
+import { Direction } from '../models/enums/direction.enum';
+import { DirectionOption } from '../models/types/direction-option.type';
 
 export class FieldPainter {
   cellSizePx: number = 35;
+
   field: Field = new Field();
   snake: Snake = new Snake(this.field);
+
+  direction: DirectionOption = Direction.Right;
+  stepIntervalMS: number = 500;
 
   init(selector: string) {
     this.paint(selector);
@@ -18,8 +24,24 @@ export class FieldPainter {
       });
     }
 
-    ['right', 'bottom', 'bottom', 'left', 'left', 'top', 'top'].forEach((side, i) => {
-      setTimeout(() => this.snake.move(side as any), (i + 1) * 500)
+    this.watchDirectionKeys();
+
+    setInterval(() => {
+      this.snake.move(this.direction);
+    }, this.stepIntervalMS);
+  }
+
+  private watchDirectionKeys() {
+    document.addEventListener('keydown', (e) => {
+      const newDirection = {
+        ArrowRight: Direction.Right,
+        ArrowLeft: Direction.Left,
+        ArrowUp: Direction.Top,
+        ArrowDown: Direction.Bottom,
+      }[e.key];
+      if (newDirection) {
+        this.direction = newDirection;
+      }
     });
   }
 

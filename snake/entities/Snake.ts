@@ -2,6 +2,7 @@ import { Field } from './Field';
 import { CoordsI } from '../models/interfaces/coords.interface';
 import { NonSnakeCellItem } from '../models/enums/non-snake-cell-value.enum';
 import { Direction } from '../models/enums/direction.enum';
+import { DirectionOption } from '../models/types/direction-option.type';
 
 export class Snake {
   constructor(private readonly field: Field) {}
@@ -14,7 +15,7 @@ export class Snake {
     return this.field.getMaxValCoords();
   }
 
-  move(direction: 'top' | 'left' | 'bottom' | 'right') {
+  move(direction: DirectionOption) {
     const newHeadCoords = {
       [Direction.Right]: { y: this.headCoords.y, x: this.headCoords.x + 1 },
       [Direction.Left]: { y: this.headCoords.y, x: this.headCoords.x - 1 },

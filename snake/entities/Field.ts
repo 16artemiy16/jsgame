@@ -24,7 +24,7 @@ export class Field {
   }
 
   _cells: CellItemValue[][] = [
-    [1, 0, e, e, e, e],
+    [2, 1, 0, e, e, e],
     [e, e, e, e, w, e],
     [e, e, e, e, w, e],
     [e, e, f, e, e, e],
