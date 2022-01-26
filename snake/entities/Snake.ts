@@ -15,15 +15,18 @@ export class Snake {
   }
 
   move(direction: 'top' | 'left' | 'bottom' | 'right') {
-    if (direction === Direction.Right) {
-      const newHeadCoords = { ...this.tailCoords, x: this.headCoords.x + 1 };
-      this.field.updateCells([
-        // Move the tail ahead the head
-        { ...newHeadCoords, value: 0 },
-        // Make 'obsolete' tail empty
-        { ...this.tailCoords, value: NonSnakeCellItem.Empty },
-      ]);
-      this.field.increaseNumbersExceptCoords(newHeadCoords);
-    }
+    const newHeadCoords = {
+      [Direction.Right]: { y: this.headCoords.y, x: this.headCoords.x + 1 },
+      [Direction.Left]: { y: this.headCoords.y, x: this.headCoords.x - 1 },
+      [Direction.Bottom]: { x: this.headCoords.x, y: this.headCoords.y + 1 },
+      [Direction.Top]: { x: this.headCoords.x, y: this.headCoords.y - 1 },
+    }[direction];
+
+    this.field.updateCells([
+      { ...newHeadCoords, value: 0 },
+      { ...this.tailCoords, value: NonSnakeCellItem.Empty },
+    ]);
+
+    this.field.increaseNumbersExceptCoords(newHeadCoords);
   }
 }

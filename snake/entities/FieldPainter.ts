@@ -18,21 +18,9 @@ export class FieldPainter {
       });
     }
 
-    setTimeout(() => {
-      this.snake.move('right');
-    }, 1000);
-
-    setTimeout(() => {
-      this.snake.move('right');
-
-    }, 2000)
-    setTimeout(() => {
-      this.snake.move('right');
-    }, 3000)
-
-    setTimeout(() => {
-      this.snake.move('right');
-    }, 4000)
+    ['right', 'bottom', 'bottom', 'left', 'left', 'top', 'top'].forEach((side, i) => {
+      setTimeout(() => this.snake.move(side as any), (i + 1) * 500)
+    });
   }
 
   private getElByCoords({ x, y }: CoordsI): HTMLElement | null {
