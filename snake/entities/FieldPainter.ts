@@ -1,8 +1,8 @@
 import { Field } from './Field';
-import { CellItemValue } from '../models/types/cell-item-value.type';
-import { CellItem } from '../models/enums/cell-item.enum';
 import { CoordsI } from '../models/interfaces/coords.interface';
 import { Snake } from './Snake';
+import { CellItemValue } from '../models/types/cell-item-value.type';
+import { NonSnakeCellItem } from '../models/enums/non-snake-cell-value.enum';
 
 export class FieldPainter {
   cellSizePx: number = 35;
@@ -18,13 +18,21 @@ export class FieldPainter {
       });
     }
 
-    // setTimeout(() => {
-    //   this.field.updateCells([
-    //     { x: 0, y: 0, value: CellItem.SnakeHead },
-    //     { x: 1, y: 0, value: CellItem.Snake },
-    //     { x: 3, y: 0, value: CellItem.Empty },
-    //   ]);
-    // }, 1000);
+    setTimeout(() => {
+      this.snake.move('right');
+    }, 1000);
+
+    setTimeout(() => {
+      this.snake.move('right');
+
+    }, 2000)
+    setTimeout(() => {
+      this.snake.move('right');
+    }, 3000)
+
+    setTimeout(() => {
+      this.snake.move('right');
+    }, 4000)
   }
 
   private getElByCoords({ x, y }: CoordsI): HTMLElement | null {
@@ -64,13 +72,10 @@ export class FieldPainter {
 
   private getBGByCellValue(value: CellItemValue): string {
     return {
-      [`${CellItem.Empty}`]: 'white',
-      [`${CellItem.Snake}`]: 'grey',
-      [`${CellItem.SnakeTail}`]: 'grey',
-      [`${CellItem.Food}`]: 'green',
-      [`${CellItem.Wall}`]: 'black',
-      [`${CellItem.SnakeHead}`]: 'silver',
-    }[`${value}`];
+      [`${NonSnakeCellItem.Empty}`]: 'white',
+      [`${NonSnakeCellItem.Food}`]: 'green',
+      [`${NonSnakeCellItem.Wall}`]: 'grey',
+    }[`${value}`] || 'black';
   }
 
   private paintCellEl(coords: CoordsI, value: CellItemValue) {

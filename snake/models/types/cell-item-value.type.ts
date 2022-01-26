@@ -1,9 +1,3 @@
-import { CellItem } from '../enums/cell-item.enum';
+import { NonSnakeCellItemValue } from './non-snake-cell-item-value.type';
 
-export type CellItemValue =
-  CellItem.Empty     |
-  CellItem.Snake     |
-  CellItem.Food      |
-  CellItem.Wall      |
-  CellItem.SnakeHead |
-  CellItem.SnakeTail;
+export type CellItemValue = NonSnakeCellItemValue | number;
