@@ -23,6 +23,14 @@ export class Field {
     return this._cells;
   }
 
+  get xVerge(): number {
+    return this._cells[0].length - 1;
+  }
+
+  get yVerge(): number {
+    return this._cells.length - 1;
+  }
+
   _cells: CellItemValue[][] = [
     [2, 1, 0, e, e, e],
     [e, e, e, e, w, e],

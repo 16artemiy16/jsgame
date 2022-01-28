@@ -3,6 +3,7 @@ import { CoordsI } from '../models/interfaces/coords.interface';
 import { NonSnakeCellItem } from '../models/enums/non-snake-cell-value.enum';
 import { Direction } from '../models/enums/direction.enum';
 import { DirectionOption } from '../models/types/direction-option.type';
+import { GameOverError } from '../errors/game-over.error';
 
 export class Snake {
   constructor(private readonly field: Field) {}
@@ -22,6 +23,15 @@ export class Snake {
       [Direction.Bottom]: { x: this.headCoords.x, y: this.headCoords.y + 1 },
       [Direction.Top]: { x: this.headCoords.x, y: this.headCoords.y - 1 },
     }[direction];
+
+    if (
+      newHeadCoords.y < 0 ||
+      newHeadCoords.x < 0 ||
+      newHeadCoords.y > this.field.yVerge ||
+      newHeadCoords.x > this.field.xVerge
+    ) {
+      throw new GameOverError('You hit the end of the map!');
+    }
 
     this.field.updateCells([
       { ...newHeadCoords, value: 0 },

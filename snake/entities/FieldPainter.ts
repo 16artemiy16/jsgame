@@ -14,6 +14,7 @@ export class FieldPainter {
 
   direction: DirectionOption = Direction.Right;
   stepIntervalMS: number = 500;
+  gameInterval: number | null = null;
 
   init(selector: string) {
     this.paint(selector);
@@ -26,9 +27,17 @@ export class FieldPainter {
 
     this.watchDirectionKeys();
 
-    setInterval(() => {
-      this.snake.move(this.direction);
-    }, this.stepIntervalMS);
+
+    this.gameInterval = setInterval(() => {
+      try {
+        this.snake.move(this.direction);
+      } catch (err) {
+        if (err.isGameOver) {
+          this.paintGameOver(err.message);
+          clearInterval(this.gameInterval);
+        }
+      }
+    }, this.stepIntervalMS) as unknown as number;
   }
 
   private watchDirectionKeys() {
@@ -49,14 +58,42 @@ export class FieldPainter {
     return document.querySelector(`#cell-${y}_${x}`);
   }
 
+  private paintGameOver(message: string) {
+    const field = document.querySelector('.snake-game__field') as HTMLDivElement;
+    field.style.opacity = '.5';
+
+    const textDiv = document.createElement('div');
+    textDiv.style.position = 'absolute';
+    textDiv.style.top = '0';
+    textDiv.style.left = '0';
+    textDiv.style.bottom = '0';
+    textDiv.style.right = '0';
+    textDiv.style.display = 'flex';
+    textDiv.style.alignItems = 'center';
+    textDiv.style.justifyContent = 'center';
+    textDiv.style.fontSize = '1.5em';
+    textDiv.style.textAlign = 'center';
+    textDiv.style.fontWeight = 'bold';
+    textDiv.textContent = message;
+
+    document
+      .querySelectorAll('.snake-game__row')
+      .forEach((el) => (el as HTMLElement).style.opacity = '.5');
+
+    field.appendChild(textDiv);
+  }
+
   private paint(selector: string) {
     const placeholder = document.querySelector(selector);
     const fieldDiv = document.createElement('div');
+    fieldDiv.classList.add('snake-game__field')
     fieldDiv.style.display = 'flex';
     fieldDiv.style.flexDirection = 'column';
+    fieldDiv.style.position = 'relative';
 
     this.field.cells.forEach((row, y) => {
       const rowDiv = document.createElement('div');
+      rowDiv.classList.add('snake-game__row');
       rowDiv.style.display = 'flex';
 
       row.forEach((cell, x) => {
