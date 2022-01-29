@@ -1,7 +1,7 @@
-import { FieldPainter } from './entities/FieldPainter';
+import { GameHandler } from './entities/GameHandler';
 
 export const injectGame = (selector: string) => {
-  const painter = new FieldPainter();
+  const painter = new GameHandler();
 
   painter.init(selector);
 };
