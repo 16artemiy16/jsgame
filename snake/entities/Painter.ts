@@ -5,6 +5,7 @@ import { NonSnakeCellItem } from '../models/enums/non-snake-cell-value.enum';
 import createDomField from '../utils/dom-creators/create-dom-field.util';
 import createDomRow from '../utils/dom-creators/create-dom-row.util';
 import createDomCell from '../utils/dom-creators/create-dom-cell.util';
+import createDomGameover from '../utils/dom-creators/create-dom-gameover.util';
 
 export class Painter {
   private readonly CLASS_FIELD = 'snake-game__field';
@@ -37,19 +38,7 @@ export class Painter {
     const field = document.querySelector(`.${this.CLASS_FIELD}`) as HTMLDivElement;
     field.style.opacity = '.5';
 
-    const textDiv = document.createElement('div');
-    textDiv.style.position = 'absolute';
-    textDiv.style.top = '0';
-    textDiv.style.left = '0';
-    textDiv.style.bottom = '0';
-    textDiv.style.right = '0';
-    textDiv.style.display = 'flex';
-    textDiv.style.alignItems = 'center';
-    textDiv.style.justifyContent = 'center';
-    textDiv.style.fontSize = '1.5em';
-    textDiv.style.textAlign = 'center';
-    textDiv.style.fontWeight = 'bold';
-    textDiv.textContent = message;
+    const textDiv = createDomGameover(message);
 
     document
       .querySelectorAll(`.${this.CLASS_ROW}`)
